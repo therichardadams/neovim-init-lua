@@ -1,5 +1,3 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
@@ -40,6 +38,10 @@ use {
   requires = { 'nvim-tree/nvim-web-devicons', opt = true }
 }
 use "terrortylor/nvim-comment"
+use ("tpope/vim-fugitive")
+use {'akinsho/git-conflict.nvim', tag = "*", config = function()
+  require('git-conflict').setup()
+end}
 use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',
@@ -60,4 +62,5 @@ use {
     {'L3MON4D3/LuaSnip'},     -- Required
 }
 }
+    use ("lukas-reineke/indent-blankline.nvim")
 end)
