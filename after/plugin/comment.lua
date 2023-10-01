@@ -1,1 +1,5 @@
-require('nvim_comment').setup({line_mapping = "<leader>cl", operator_mapping = "<leader>c", comment_chunk_text_object = "ic"})
+require('nvim_comment').setup({
+  line_mapping = "<leader>/",      -- toggle line comment
+  operator_mapping = "<leader>c",  -- {motion}
+  comment_chunk_text_object = "ic" -- Inside Comment
+})
