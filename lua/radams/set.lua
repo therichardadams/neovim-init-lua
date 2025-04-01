@@ -6,6 +6,9 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+vim.opt.endofline = true
+vim.opt.fixendofline = true
+
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
