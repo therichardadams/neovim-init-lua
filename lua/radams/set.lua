@@ -47,3 +47,7 @@ vim.api.nvim_create_autocmd({"Filetype"}, {
     pattern = {"go"},
     command = "setlocal noexpandtab"
 })
+vim.api.nvim_create_autocmd({"Filetype"}, {
+    pattern = {"lua"},
+    command = "setlocal tabstop=2 shiftwidth=2 softtabstop=2"
+})
