@@ -83,6 +83,9 @@ return {
       },
     })
 
+    vim.keymap.set("n", "K", function() -- Hopefully temporary, pending wider vim.o.winborder support
+      vim.lsp.buf.hover { border = "rounded" }
+    end)
     vim.keymap.set("n", "gf", vim.lsp.buf.format)
   end,
 }
