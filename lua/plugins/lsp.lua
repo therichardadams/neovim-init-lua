@@ -87,5 +87,7 @@ return {
       vim.lsp.buf.hover { border = "rounded" }
     end)
     vim.keymap.set("n", "gf", vim.lsp.buf.format)
+    vim.keymap.set("n", "grd", vim.lsp.buf.definition)
+    vim.keymap.set("n", "grD", vim.lsp.buf.declaration)
   end,
 }
