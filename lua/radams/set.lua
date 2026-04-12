@@ -28,7 +28,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80,120"
+vim.opt.colorcolumn = "80,100,120"
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -58,4 +58,15 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     callback = function()
         if vim.o.filetype == 'help' then vim.cmd.wincmd("L") end
     end
+})
+
+vim.api.nvim_create_autocmd("OptionSet", {
+  pattern = "background",
+  callback = function()
+    if vim.o.background == "light" then
+      vim.cmd.colorscheme("catppuccin-latte")
+    else
+      vim.cmd.colorscheme("tokyonight-moon")
+    end
+  end,
 })

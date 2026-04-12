@@ -31,25 +31,43 @@ return {
         "intelephense",
       },
       handlers = {
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities
-          }
+        -- The first keyless function is the "default" handler
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
+          })
         end,
 
+        -- Specific handler for lua_ls
         ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
+          require("lspconfig").lua_ls.setup({
             capabilities = capabilities,
             settings = {
               Lua = {
                 runtime = { version = "Lua 5.1" },
                 diagnostics = {
                   globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          })
+        end,
+
+        -- Specific handler for pylsp
+        ["pylsp"] = function()
+          require("lspconfig").pylsp.setup({
+            capabilities = capabilities,
+            settings = {
+              pylsp = {
+                plugins = {
+                  pycodestyle = {
+                    maxLineLength = 100,
+                    enabled = true,
+                  },
+                },
+              },
+            },
+          })
         end,
       }
     })
