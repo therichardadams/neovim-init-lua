@@ -26,18 +26,26 @@ return {
           enabled = true,
         },
         components = {
-          harpoon_index = function(config, node, state)
-            local Marked = require("harpoon.mark")
+          harpoon_index = function(config, node, _)
+            local harpoon = require("harpoon")
             local path = node:get_id()
-            local succuss, index = pcall(Marked.get_index_of, path)
-            if succuss and index and index > 0 then
-              return {
-                text = string.format("  %d", index), -- <-- Add your favorite harpoon like arrow here
-                highlight = config.highlight or "NeoTreeDirectoryIcon",
-              }
-            else
-              return {}
+            local rel_path = vim.fn.fnamemodify(path, ":.")
+            local list = harpoon:list()
+
+            for i, item in ipairs(list.items) do
+              local value = item.value
+              -- handle items that are already absolute paths
+              if string.sub(value, 1, 1) == "/" then
+                value = vim.fn.fnamemodify(value, ":.")
+              end
+              if value == rel_path then
+                return {
+                  text = string.format(" ⥤ %d", i),
+                  highlight = config.highlight or "NeoTreeDirectoryIcon",
+                }
+              end
             end
+            return {}
           end
         },
         renderers = {
