@@ -15,6 +15,7 @@ return {
   config = function()
     local cmp = require('cmp')
     local cmp_lsp = require("cmp_nvim_lsp")
+
     local capabilities = vim.tbl_deep_extend(
       "force",
       {},
@@ -23,59 +24,55 @@ return {
     )
 
     require("fidget").setup()
+
+    -- 1. Configure specific servers natively using vim.lsp.config
+    -- Neovim 0.12+ and mason-lspconfig 2.0+ read from here automatically.
+    vim.lsp.config("lua_ls", {
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = {
+            globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+          },
+        },
+      },
+    })
+
+    vim.lsp.config("pylsp", {
+      capabilities = capabilities,
+      settings = {
+        pylsp = {
+          plugins = {
+            pycodestyle = { enabled = false },
+            flake8 = { enabled = false },
+          },
+        },
+      },
+    })
+
+    vim.lsp.config("intelephense", {
+      capabilities = capabilities,
+    })
+
+    -- 2. Setup Mason
     require("mason").setup()
+
+    -- 3. Setup mason-lspconfig
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
         "pylsp",
+        "ruff",
         "intelephense",
       },
-      handlers = {
-        -- The first keyless function is the "default" handler
-        function(server_name)
-          require("lspconfig")[server_name].setup({
-            capabilities = capabilities,
-          })
-        end,
-
-        -- Specific handler for lua_ls
-        ["lua_ls"] = function()
-          require("lspconfig").lua_ls.setup({
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                runtime = { version = "Lua 5.1" },
-                diagnostics = {
-                  globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                },
-              },
-            },
-          })
-        end,
-
-        -- Specific handler for pylsp
-        ["pylsp"] = function()
-          require("lspconfig").pylsp.setup({
-            capabilities = capabilities,
-            settings = {
-              pylsp = {
-                plugins = {
-                  pycodestyle = {
-                    maxLineLength = 100,
-                    enabled = true,
-                  },
-                },
-              },
-            },
-          })
-        end,
-      }
     })
 
+    -- CMP Setup
     cmp.setup({
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          require('luasnip').lsp_expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({
@@ -84,11 +81,12 @@ return {
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'luasnip' }, -- For luasnip users.
+        { name = 'luasnip' },
         { name = 'buffer' },
       })
     })
 
+    -- Diagnostics and Keymaps
     vim.diagnostic.config({
       virtual_text = true,
       float = {
@@ -101,9 +99,6 @@ return {
       },
     })
 
-    vim.keymap.set("n", "K", function() -- Hopefully temporary, pending wider vim.o.winborder support
-      vim.lsp.buf.hover { border = "rounded" }
-    end)
     vim.keymap.set("n", "gf", vim.lsp.buf.format)
     vim.keymap.set("n", "grd", vim.lsp.buf.definition)
     vim.keymap.set("n", "grD", vim.lsp.buf.declaration)
