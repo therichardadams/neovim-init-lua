@@ -7,8 +7,8 @@ vim.keymap.set("n", "<C-b>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz") -- Todo fix this conflict with harpoon
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz") -- Todo fix this conflict with harpoon
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 

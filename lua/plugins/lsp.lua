@@ -27,7 +27,7 @@ return {
 
     -- 1. Configure specific servers natively using vim.lsp.config
     -- Neovim 0.12+ and mason-lspconfig 2.0+ read from here automatically.
-    vim.lsp.config("lua_ls", {
+    vim.lsp.config["lua_ls"] = {
       capabilities = capabilities,
       settings = {
         Lua = {
@@ -37,23 +37,23 @@ return {
           },
         },
       },
-    })
+    }
 
-    vim.lsp.config("pylsp", {
+    vim.lsp.config["pylsp"] = {
       capabilities = capabilities,
       settings = {
         pylsp = {
           plugins = {
             pycodestyle = { enabled = false },
-            flake8 = { enabled = false },
+            pyflakes = { enabled = false },
           },
         },
       },
-    })
+    }
 
-    vim.lsp.config("intelephense", {
+    vim.lsp.config["intelephense"] = {
       capabilities = capabilities,
-    })
+    }
 
     -- 2. Setup Mason
     require("mason").setup()
@@ -93,7 +93,7 @@ return {
         focusable = false,
         style = "minimal",
         border = "rounded",
-        source = "always",
+        source = true,
         header = "",
         prefix = "",
       },

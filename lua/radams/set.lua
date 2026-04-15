@@ -16,6 +16,7 @@ vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
@@ -32,7 +33,7 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80,100,120"
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldenable = false
 
 vim.g.mapleader = " "
